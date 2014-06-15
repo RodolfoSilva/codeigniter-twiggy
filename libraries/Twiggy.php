@@ -70,7 +70,6 @@ class Twiggy
 		$this->_config['environment']['cache'] = ($this->_config['environment']['cache']) ? $this->_config['twig_cache_dir'] : FALSE;
 		
 		$this->_twig = new Twig_Environment($this->_twig_loader, $this->_config['environment']);
-		$this->_twig->setLexer(new Twig_Lexer($this->_twig, $this->_config['delimiters']));
 
 		// Initialize defaults
 		$this->theme($this->_config['default_theme'])
@@ -395,6 +394,9 @@ class Twiggy
 
 	private function _load()
 	{
+        if (!$this->rendered()) {
+            $this->_twig->setLexer(new Twig_Lexer($this->_twig, $this->_config['delimiters']));
+        }
 		$this->set('meta', $this->_compile_metadata(), TRUE);
 		$this->_rendered = TRUE;
 
